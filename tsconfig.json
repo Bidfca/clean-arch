@@ -7,6 +7,12 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "module": "commonjs",
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+      "@/test/*": ["../test/*"]
+    },
     "moduleResolution": "node"
   },
   "include": ["src"]
