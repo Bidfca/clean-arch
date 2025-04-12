@@ -9,6 +9,9 @@ module.exports = (async function config() {
         ...love.rules,
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/require-await": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/prefer-destructuring": "off",
       },
     },
   ];

@@ -7,7 +7,9 @@ export interface FacebookAuthentication {
   ) => Promise<FacebookAuthentication.Result>;
 }
 
-namespace FacebookAuthentication {
+export namespace FacebookAuthentication {
+  // We use an object (command pattern) to pass parameters instead of just a plain token.
+  // This makes it easier to extend later if more parameters are needed, without breaking the interface.
   export type Params = {
     token: string;
   };
