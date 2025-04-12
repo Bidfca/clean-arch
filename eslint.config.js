@@ -13,6 +13,7 @@ module.exports = (async function config() {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/prefer-destructuring": "off",
         "@typescript-eslint/no-magic-numbers": "off",
+        "@typescript-eslint/init-declarations": "off",
       },
     },
   ];
