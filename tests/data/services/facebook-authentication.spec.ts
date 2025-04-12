@@ -1,5 +1,6 @@
 import type { FacebookAuthentication } from "@/domain/features";
 import { AuthenticationError } from "@/domain/errors";
+import type { LoadFacebookUserApi } from "@/domain/data/contracts/apis";
 
 class FacebookAuthenticationService {
   constructor(private readonly loadFacebookUserApi: LoadFacebookUserApi) {}
@@ -10,23 +11,6 @@ class FacebookAuthenticationService {
     await this.loadFacebookUserApi.loadUserByToken(params);
     return new AuthenticationError();
   }
-}
-
-// A concrete class should depend on an interface, not another concrete class (Dependency Inversion Principle).
-// For example, using a class like `LoadFacebookUserByTokenApi` directly would violate this principle.
-// Also, avoid generic names like `facebookApi` to maintain clarity and follow the Interface Segregation Principle.
-interface LoadFacebookUserApi {
-  loadUserByToken: (
-    params: LoadFacebookUserApi.Params
-  ) => Promise<LoadFacebookUserApi.Result>;
-}
-
-namespace LoadFacebookUserApi {
-  export type Params = {
-    token: string;
-  };
-
-  export type Result = undefined;
 }
 
 class LoadFacebookUserApiSpy implements LoadFacebookUserApi {
