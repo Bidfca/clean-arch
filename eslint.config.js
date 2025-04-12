@@ -5,6 +5,11 @@ module.exports = (async function config() {
     {
       ...love,
       files: ["**/*.ts"],
+      rules: {
+        ...love.rules,
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "@typescript-eslint/no-namespace": "off",
+      },
     },
   ];
 })();
