@@ -1,14 +1,21 @@
 import type { LoadFacebookUserApi } from "@/data/contracts/apis";
 import type { FacebookAuthentication } from "@/domain/features";
+import type { LoadUserAccountRepository } from "@/data/contracts/repos";
 import { AuthenticationError } from "@/domain/errors";
 
 export class FacebookAuthenticationService {
-  constructor(private readonly loadFacebookUserApi: LoadFacebookUserApi) {}
+  constructor(
+    private readonly loadFacebookUserApi: LoadFacebookUserApi,
+    private readonly loadUserAccountRepository: LoadUserAccountRepository
+  ) {}
 
   async perform(
     params: FacebookAuthentication.Params
   ): Promise<AuthenticationError> {
-    await this.loadFacebookUserApi.loadUser(params);
+    const fbData = await this.loadFacebookUserApi.loadUser(params);
+    if (fbData !== undefined) {
+      await this.loadUserAccountRepository.load({ email: fbData.email });
+    }
     return new AuthenticationError();
   }
 }
