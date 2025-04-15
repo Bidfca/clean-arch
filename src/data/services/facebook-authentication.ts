@@ -24,6 +24,12 @@ export class FacebookAuthenticationService {
       const accountData = await this.userAccountRepo.load({
         email: fbData.email,
       });
+
+      // Instead of instantiating FacebookAccount directly here, we should inject it.
+      // This makes testing easier: we can use a test double for the dependency,
+      // whereas mocking an internally instantiated class requires mocking a whole module.
+      // Also, by testing FacebookAccount separately, we avoid duplicating tests.
+      // Here, we only need to verify that FacebookAccount is called with the correct parameters.
       const fbAccount = new FacebookAccount(fbData, accountData);
       await this.userAccountRepo.saveWithFacebook(fbAccount);
     }
