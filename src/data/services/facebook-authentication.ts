@@ -5,6 +5,7 @@ import type {
   LoadUserAccountRepository,
 } from "@/data/contracts/repos";
 import { AuthenticationError } from "@/domain/errors";
+import { FacebookAccount } from "@/domain/models";
 
 export class FacebookAuthenticationService {
   constructor(
@@ -13,28 +14,43 @@ export class FacebookAuthenticationService {
       SaveFacebookAccountRepository
   ) {}
 
+  // This service should only handle orchestration and delegation.
+  // The logic for creating or updating a user account should be moved to a domain model.
   async perform(
     params: FacebookAuthentication.Params
   ): Promise<AuthenticationError> {
     const fbData = await this.facebookApi.loadUser(params);
-    // This logic is influenced by how different storage systems handle persistence:
-    // - In relational databases, the common pattern is: if a record exists, we update it; if it doesn't, we create it.
-    // - In MongoDB, this behavior is abstracted into an "upsert" operation, which updates if the document exists or inserts a new one otherwise.
-    // - In cache databases (e.g., Redis), we typically need to explicitly provide the ID, as it doesn't auto-generate it.
-    // To keep this logic generic and adaptable across different storage types,
-    // the service should call a higher-level method like `save`, and let the concrete repository implementation
-    // decide whether to create or update based on its specific backend.
     if (fbData !== undefined) {
       const accountData = await this.userAccountRepo.load({
         email: fbData.email,
       });
-      await this.userAccountRepo.saveWithFacebook({
-        id: accountData?.id,
-        email: fbData.email,
-        name: accountData?.name ?? fbData.name,
-        facebookId: fbData.facebookId,
-      });
+      const fbAccount = new FacebookAccount(fbData, accountData);
+      await this.userAccountRepo.saveWithFacebook(fbAccount);
     }
     return new AuthenticationError();
   }
 }
+
+// This model is too generic and doesn't satisfy the contract required by the saveWithFacebook interface.
+// class UserAccount {
+//   id?: string;
+//   name?: string;
+//   email: string;
+//   facebookId?: string;
+
+//   constructor(model: { id?: string; name?: string; email: string }) {
+//     this.id = model.id;
+//     this.name = model.name;
+//     this.email = model.email;
+//   }
+
+//   updateWithFacebook(model: {
+//     name: string;
+//     email: string;
+//     facebookId: string;
+//   }) {
+//     this.name = model.name;
+//     this.facebookId = model.facebookId;
+//     this.name ??= model.name;
+//   }
+// }
