@@ -8,6 +8,7 @@ import type {
 import type { TokenGenerator } from "@/data/contracts/crypto";
 
 import { mock, type MockProxy } from "jest-mock-extended";
+import { AccessToken } from "@/domain/models";
 
 jest.mock("@/domain/models/facebook-account", () => ({
   FacebookAccount: jest.fn().mockImplementation(() => ({
@@ -84,6 +85,7 @@ describe("FacebookAuthenticationService", () => {
 
     expect(crypto.generateToken).toHaveBeenCalledWith({
       key: "any_account_id",
+      expirationInMs: AccessToken.expiresInMs,
     });
     expect(crypto.generateToken).toHaveBeenCalledTimes(1);
   });

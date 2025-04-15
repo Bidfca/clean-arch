@@ -5,7 +5,7 @@ import type {
   LoadUserAccountRepository,
 } from "@/data/contracts/repos";
 import { AuthenticationError } from "@/domain/errors";
-import { FacebookAccount } from "@/domain/models";
+import { AccessToken, FacebookAccount } from "@/domain/models";
 import type { TokenGenerator } from "@/data/contracts/crypto";
 
 export class FacebookAuthenticationService {
@@ -34,7 +34,10 @@ export class FacebookAuthenticationService {
       // Here, we only need to verify that FacebookAccount is called with the correct parameters.
       const fbAccount = new FacebookAccount(fbData, accountData);
       const { id } = await this.userAccountRepo.saveWithFacebook(fbAccount);
-      await this.crypto.generateToken({ key: id });
+      await this.crypto.generateToken({
+        key: id,
+        expirationInMs: AccessToken.expiresInMs,
+      });
     }
     return new AuthenticationError();
   }
