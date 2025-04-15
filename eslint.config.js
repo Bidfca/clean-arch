@@ -14,6 +14,7 @@ module.exports = (async function config() {
         "@typescript-eslint/prefer-destructuring": "off",
         "@typescript-eslint/no-magic-numbers": "off",
         "@typescript-eslint/init-declarations": "off",
+        "@typescript-eslint/class-literal-property-style": "off",
       },
     },
   ];
