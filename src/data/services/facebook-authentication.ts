@@ -6,12 +6,14 @@ import type {
 } from "@/data/contracts/repos";
 import { AuthenticationError } from "@/domain/errors";
 import { FacebookAccount } from "@/domain/models";
+import type { TokenGenerator } from "@/data/contracts/crypto";
 
 export class FacebookAuthenticationService {
   constructor(
     private readonly facebookApi: LoadFacebookUserApi,
     private readonly userAccountRepo: LoadUserAccountRepository &
-      SaveFacebookAccountRepository
+      SaveFacebookAccountRepository,
+    private readonly crypto: TokenGenerator
   ) {}
 
   // This service should only handle orchestration and delegation.
@@ -31,7 +33,8 @@ export class FacebookAuthenticationService {
       // Also, by testing FacebookAccount separately, we avoid duplicating tests.
       // Here, we only need to verify that FacebookAccount is called with the correct parameters.
       const fbAccount = new FacebookAccount(fbData, accountData);
-      await this.userAccountRepo.saveWithFacebook(fbAccount);
+      const { id } = await this.userAccountRepo.saveWithFacebook(fbAccount);
+      await this.crypto.generateToken({ key: id });
     }
     return new AuthenticationError();
   }
