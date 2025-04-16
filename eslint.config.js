@@ -13,6 +13,9 @@ module.exports = (async function config() {
         "@typescript-eslint/no-magic-numbers": "off",
         "@typescript-eslint/init-declarations": "off",
         "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unsafe-type-assertion": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/class-methods-use-this": "off",
       },
     },
   ];
