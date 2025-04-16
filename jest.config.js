@@ -6,7 +6,7 @@
 /** @type {import('jest').Config} */
 const config = {
   // Directories Jest should scan to collect coverage
-  collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
+  collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/main/**"],
 
   // Directory where Jest should output coverage files
   coverageDirectory: "coverage",
