@@ -1,5 +1,6 @@
 import { FacebookApi } from "@/infra/apis";
 import type { HttpGetClient } from "@/infra/http";
+// Create fully typed and deep mocks when testing complex interfaces or classes
 import { mock, type MockProxy } from "jest-mock-extended";
 
 describe("FaceookApi", () => {
