@@ -18,6 +18,8 @@ module.exports = (async function config() {
         "@typescript-eslint/class-methods-use-this": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/require-await": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
       },
     },
   ];
