@@ -17,6 +17,7 @@ module.exports = (async function config() {
         "@typescript-eslint/unbound-method": "off",
         "@typescript-eslint/class-methods-use-this": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/require-await": "off",
       },
     },
   ];
