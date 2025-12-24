@@ -40,6 +40,6 @@
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.1",
-    "typeorm": "^0.3.22"
+    "typeorm": "^0.3.27"
   }
 }
